@@ -2,20 +2,16 @@ import "./style.css";
 
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjVjYzQ5Ni0wZjBlLTQ2MmEtODA0ZS1iY2UxYzNlNGM3NmYiLCJpZCI6NDQ0NzMwLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoidW5kZWZpbmVkX2RlZmF1bHQiLCJpYXQiOjE3ODE1MjY5NDN9.qtUR0cwIerZN7dp1FmflXrLiZjgTqzxpsdO3g1sMtNM';
 
-// Wir starten den Viewer OHNE das WorldTerrain, damit hügeliges Gelände eure Gebäude nicht überdeckt!
 const viewer = new Cesium.Viewer("cesiumContainer", {
-    terrainProvider: null
+    terrain: Cesium.Terrain.fromWorldTerrain(),
 });
 
-// Gebäude laden
+// Die modernisierte und sicherste Schreibweise für die Gebäude:
 Cesium.Cesium3DTileset.fromIonAssetId(4943263)
     .then(function (tileset) {
         viewer.scene.primitives.add(tileset);
-        
-        // Perfekter Zoom direkt auf eure Daten
-        viewer.zoomTo(tileset);
+        viewer.zoomTo(tileset); // Nutzt zoomTo statt flyTo, um sicherzugehen
 
-        // Farb-Styling nach Höhe anwenden
         tileset.style = new Cesium.Cesium3DTileStyle({
             color: {
                 conditions: [
@@ -32,9 +28,8 @@ Cesium.Cesium3DTileset.fromIonAssetId(4943263)
         });
     })
     .catch(function (error) {
-        console.log("Fehler beim Laden des Tilesets:", error);
+        console.log("Fehler beim Laden:", error);
     });
 
-// Features aktivieren
 viewer.shadows = true;
 viewer.scene.skyAtmosphere.show = true;
