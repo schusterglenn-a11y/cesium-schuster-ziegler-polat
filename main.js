@@ -11,16 +11,16 @@ import {
 } from "cesium";
 import "./style.css";
 
-// Cesium Ion token is read from the environment (see .env.local).
-// Set VITE_CESIUM_ION_TOKEN there; never commit a real token to git.
-Ion.defaultAccessToken = import.meta.env.VITE_CESIUM_ION_TOKEN;
+
+// Ändert Zeile 14 ab zu:
+Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjVjYzQ5Ni0wZjBlLTQ2MmEtODA0ZS1iY2UxYzNlNGM3NmYiLCJpZCI6NDQ0NzMwLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoidW5kZWZpbmVkX2RlZmF1bHQiLCJpYXQiOjE3ODE1MjY5NDN9.qtUR0cwIerZN7dp1FmflXrLiZjgTqzxpsdO3g1sMtNM';
 
 const viewer = new Viewer("cesiumContainer", {
     terrain: Terrain.fromWorldTerrain(),
 });
 
 const tileset = viewer.scene.primitives.add(
-    await Cesium3DTileset.fromIonAssetId(4943263)
+    Cesium3DTileset.fromIonAssetId(4943263)
 );
 
 viewer.flyTo(tileset);
