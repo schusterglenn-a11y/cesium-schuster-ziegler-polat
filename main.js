@@ -1,21 +1,21 @@
-
 import "./style.css";
 
-
-// Ändert Zeile 14 ab zu:
 Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIxMjVjYzQ5Ni0wZjBlLTQ2MmEtODA0ZS1iY2UxYzNlNGM3NmYiLCJpZCI6NDQ0NzMwLCJpc3MiOiJodHRwczovL2FwaS5jZXNpdW0uY29tIiwiYXVkIjoidW5kZWZpbmVkX2RlZmF1bHQiLCJpYXQiOjE3ODE1MjY5NDN9.qtUR0cwIerZN7dp1FmflXrLiZjgTqzxpsdO3g1sMtNM';
 
+// Wir starten den Viewer OHNE das WorldTerrain, damit hügeliges Gelände eure Gebäude nicht überdeckt!
 const viewer = new Cesium.Viewer("cesiumContainer", {
-    terrain: Cesium.Terrain.fromWorldTerrain(),
+    terrainProvider: null
 });
 
-// Hier nutzen wir die absolut sichere Methode für das Tileset:
+// Gebäude laden
 Cesium.Cesium3DTileset.fromIonAssetId(4943263)
-    .then((tileset) => {
+    .then(function (tileset) {
         viewer.scene.primitives.add(tileset);
-        viewer.flyTo(tileset);
+        
+        // Perfekter Zoom direkt auf eure Daten
+        viewer.zoomTo(tileset);
 
-        // Styling wird erst angewendet, wenn das Tileset geladen ist
+        // Farb-Styling nach Höhe anwenden
         tileset.style = new Cesium.Cesium3DTileStyle({
             color: {
                 conditions: [
@@ -31,10 +31,10 @@ Cesium.Cesium3DTileset.fromIonAssetId(4943263)
             }
         });
     })
-    .catch((error) => {
-        console.error("Fehler beim Laden des Tilesets:", error);
+    .catch(function (error) {
+        console.log("Fehler beim Laden des Tilesets:", error);
     });
 
-// Feature 1: Schatten aktivieren
+// Features aktivieren
 viewer.shadows = true;
 viewer.scene.skyAtmosphere.show = true;
