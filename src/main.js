@@ -6,11 +6,10 @@ const viewer = new Cesium.Viewer("cesiumContainer", {
     terrain: Cesium.Terrain.fromWorldTerrain(),
 });
 
-// Die modernisierte und sicherste Schreibweise für die Gebäude:
 Cesium.Cesium3DTileset.fromIonAssetId(4944796)
     .then(function (tileset) {
         viewer.scene.primitives.add(tileset);
-        viewer.zoomTo(tileset); // Nutzt zoomTo statt flyTo, um sicherzugehen
+        viewer.zoomTo(tileset);
 
         tileset.style = new Cesium.Cesium3DTileStyle({
             color: {
